@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+src/scripts/firebase-key.json
+src/scripts/*.cjs
+src/scripts/*.xlsx
