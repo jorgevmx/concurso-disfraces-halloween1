@@ -1,77 +1,103 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  query,
+  where,
+  updateDoc,
+  doc
+} from "firebase/firestore";
+import { db } from "./firebase";
 
 export default function ConcursoDisfraces() {
   const [participantes, setParticipantes] = useState([]);
-  const [nombre, setNombre] = useState("");
-  const [descripcion, setDescripcion] = useState("");
-  const [foto, setFoto] = useState("");
-  const [yaVoto, setYaVoto] = useState(
-    localStorage.getItem("yaVoto") === "true"
-  );
+  const [empleado, setEmpleado] = useState("");
+  const [celular, setCelular] = useState("");
 
-  const cargarFoto = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+  useEffect(() => {
+    cargarParticipantes();
+  }, []);
 
-    const reader = new FileReader();
+  const cargarParticipantes = async () => {
+    try {
+      const querySnapshot = await getDocs(
+        collection(db, "participantes")
+      );
 
-    reader.onload = () => {
-      setFoto(reader.result);
-    };
+      const datos = querySnapshot.docs.map((documento) => ({
+        id: documento.id,
+        ...documento.data(),
+      }));
 
-    reader.readAsDataURL(file);
+      setParticipantes(datos);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const registrar = () => {
-    if (!nombre || !foto) {
-      alert("Debes ingresar un nombre y una foto.");
+  const votar = async (id) => {
+    if (!empleado || !celular) {
+      alert(
+        "Ingresa tu número de empleado y los últimos 4 dígitos del celular."
+      );
       return;
     }
 
-    const nuevoParticipante = {
-      id: Date.now(),
-      nombre,
-      descripcion,
-      foto,
-      votos: 0,
-    };
-
-    setParticipantes([...participantes, nuevoParticipante]);
-
-    setNombre("");
-    setDescripcion("");
-    setFoto("");
-  };
-
-  const votar = (id) => {
-    if (yaVoto) {
-      alert("Ya has emitido tu voto.");
+    if (celular.length !== 4) {
+      alert(
+        "Los últimos 4 dígitos del celular deben contener exactamente 4 números."
+      );
       return;
     }
 
-    setParticipantes(
-      participantes.map((p) =>
-        p.id === id
-          ? { ...p, votos: p.votos + 1 }
-          : p
-      )
-    );
+    try {
+      const existeVoto = query(
+        collection(db, "votos"),
+        where("empleado", "==", empleado),
+        where("celular", "==", celular)
+      );
 
-    setYaVoto(true);
-    localStorage.setItem("yaVoto", "true");
+      const resultado = await getDocs(existeVoto);
 
-    alert("✅ Tu voto ha sido registrado.");
-  };
+      if (!resultado.empty) {
+        alert("❌ Ya registraste un voto.");
+        return;
+      }
 
-  const reiniciarVoto = () => {
-    localStorage.removeItem("yaVoto");
-    setYaVoto(false);
+      const participante = participantes.find(
+        (p) => p.id === id
+      );
 
-    alert("🔄 Se reinició el estado de votación.");
+      await addDoc(collection(db, "votos"), {
+        empleado,
+        celular,
+        participanteId: id,
+        fecha: new Date()
+      });
+
+      await updateDoc(
+        doc(db, "participantes", id),
+        {
+          votos: (participante.votos || 0) + 1
+        }
+      );
+
+      await cargarParticipantes();
+
+      alert("✅ Voto registrado correctamente");
+
+      setEmpleado("");
+      setCelular("");
+
+    } catch (error) {
+      console.error(error);
+      alert("❌ Error al registrar el voto");
+    }
   };
 
   const ranking = [...participantes].sort(
-    (a, b) => b.votos - a.votos
+    (a, b) => (b.votos || 0) - (a.votos || 0)
   );
 
   return (
@@ -107,107 +133,47 @@ export default function ConcursoDisfraces() {
             fontSize: "24px",
           }}
         >
-          👻 Registra tu disfraz y vota por el más terrorífico 👻
+          👻 Vota por el disfraz más terrorífico 👻
         </p>
 
         <div
           style={{
             background: "rgba(0,0,0,0.5)",
             padding: "20px",
-            borderRadius: "20px",
-            marginBottom: "30px",
+            borderRadius: "15px",
+            marginBottom: "25px",
           }}
         >
-          <h2 style={{ textAlign: "center" }}>
-            🕸️ Registro de Participantes
-          </h2>
+          <h2>🪪 Identificación para votar</h2>
 
           <input
             type="text"
-            placeholder="Nombre del participante"
-            value={nombre}
-            onChange={(e) => setNombre(e.target.value)}
+            placeholder="Número de empleado"
+            value={empleado}
+            onChange={(e) => setEmpleado(e.target.value)}
             style={{
               width: "100%",
               padding: "12px",
               marginBottom: "10px",
-            }}
-          />
-
-          <textarea
-            placeholder="Descripción del disfraz"
-            value={descripcion}
-            onChange={(e) => setDescripcion(e.target.value)}
-            style={{
-              width: "100%",
-              padding: "12px",
-              marginBottom: "10px",
+              borderRadius: "8px",
+              border: "none",
             }}
           />
 
           <input
-            type="file"
-            accept="image/*"
-            onChange={cargarFoto}
-          />
-
-          {foto && (
-            <div style={{ marginTop: "10px" }}>
-              <img
-                src={foto}
-                alt="Preview"
-                style={{
-                  width: "180px",
-                  borderRadius: "10px",
-                }}
-              />
-            </div>
-          )}
-
-          <br />
-
-          <button
-            onClick={registrar}
+            type="text"
+            placeholder="Últimos 4 dígitos del celular"
+            value={celular}
+            maxLength={4}
+            onChange={(e) => setCelular(e.target.value)}
             style={{
-              marginTop: "10px",
-              background: "#ff6600",
-              color: "white",
+              width: "100%",
+              padding: "12px",
+              borderRadius: "8px",
               border: "none",
-              padding: "12px 20px",
-              borderRadius: "10px",
-              cursor: "pointer",
             }}
-          >
-            🎃 Registrar Disfraz
-          </button>
+          />
         </div>
-
-        {yaVoto && (
-          <div
-            style={{
-              textAlign: "center",
-              marginBottom: "20px",
-            }}
-          >
-            <h3 style={{ color: "#00ff88" }}>
-              ✅ Ya registraste tu voto.
-            </h3>
-
-            <button
-              onClick={reiniciarVoto}
-              style={{
-                background: "#cc0000",
-                color: "white",
-                border: "none",
-                padding: "10px 15px",
-                borderRadius: "8px",
-                cursor: "pointer",
-              }}
-            >
-              🔄 Reiniciar Voto
-            </button>
-          </div>
-        )}
 
         <div
           style={{
@@ -234,7 +200,7 @@ export default function ConcursoDisfraces() {
                   alt={p.nombre}
                   style={{
                     width: "100%",
-                    maxHeight: "280px",
+                    maxHeight: "300px",
                     objectFit: "cover",
                     borderRadius: "10px",
                   }}
@@ -251,21 +217,18 @@ export default function ConcursoDisfraces() {
                     alignItems: "center",
                   }}
                 >
-                  <span>🦇 {p.votos} votos</span>
+                  <span>
+                    🦇 {p.votos || 0} votos
+                  </span>
 
                   <button
                     onClick={() => votar(p.id)}
-                    disabled={yaVoto}
                     style={{
                       padding: "10px 15px",
                       border: "none",
                       borderRadius: "10px",
-                      cursor: yaVoto
-                        ? "not-allowed"
-                        : "pointer",
-                      background: yaVoto
-                        ? "#666"
-                        : "green",
+                      cursor: "pointer",
+                      background: "green",
                       color: "white",
                     }}
                   >
@@ -286,33 +249,31 @@ export default function ConcursoDisfraces() {
                 borderRadius: "15px",
               }}
             >
-              {ranking.length === 0 ? (
-                <p>No hay participantes registrados.</p>
-              ) : (
-                ranking.map((p, index) => (
-                  <div
-                    key={p.id}
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      padding: "10px 0",
-                    }}
-                  >
-                    <span>
-                      {index === 0
-                        ? "🥇"
-                        : index === 1
-                        ? "🥈"
-                        : index === 2
-                        ? "🥉"
-                        : "🎃"}{" "}
-                      {p.nombre}
-                    </span>
+              {ranking.map((p, index) => (
+                <div
+                  key={p.id}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    padding: "10px 0",
+                  }}
+                >
+                  <span>
+                    {index === 0
+                      ? "🥇"
+                      : index === 1
+                      ? "🥈"
+                      : index === 2
+                      ? "🥉"
+                      : "🎃"}{" "}
+                    {p.nombre}
+                  </span>
 
-                    <span>{p.votos} votos</span>
-                  </div>
-                ))
-              )}
+                  <span>
+                    {p.votos || 0} votos
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
