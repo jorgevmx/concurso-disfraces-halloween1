@@ -14,7 +14,7 @@ export default function ConcursoDisfracesV2() {
   const [pantalla, setPantalla] = useState("registro");
   const [participantes, setParticipantes] = useState([]);
 
-  const MOSTRAR_RESULTADOS = false;
+  const MOSTRAR_RESULTADOS = true;
 const MOSTRAR_VOTOS = false;
 const VOTACION_ABIERTA = true;
 
