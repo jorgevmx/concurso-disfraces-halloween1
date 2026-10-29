@@ -14,10 +14,10 @@ export default function ConcursoDisfracesV2() {
   const [pantalla, setPantalla] = useState("registro");
   const [participantes, setParticipantes] = useState([]);
 
-  const MOSTRAR_RESULTADOS = false;
+  const MOSTRAR_RESULTADOS = true;
 const MOSTRAR_VOTOS = false;
 const VOTACION_ABIERTA = true;
-const MOSTRAR_VOTACION = false;
+const MOSTRAR_VOTACION = true;
 
   useEffect(() => {
     cargarParticipantes();
@@ -108,7 +108,7 @@ const MOSTRAR_VOTACION = false;
     boxShadow: "0 0 10px rgba(255,136,0,0.4)",
   }}
 >
-  🎃 Registrar Disfraz
+  🎃 Registro de Disfraces
 </button>
 {MOSTRAR_VOTACION && (
   <button
@@ -347,7 +347,7 @@ function RegistroDisfraz({ recargar }) {
     marginBottom: "20px",
   }}
 >
-  🎃 Registro de Disfraz
+  🎃 ¡Registra tu disfraz aquí!
 </h2>
 <input
   type="text"
@@ -418,19 +418,22 @@ function RegistroDisfraz({ recargar }) {
 
       <br />
 
-      <button
-        onClick={registrar}
-        style={{
-          marginTop: "15px",
-          background: "#ff6600",
-          color: "white",
-          border: "none",
-          padding: "12px 20px",
-          borderRadius: "10px",
-          cursor: "pointer",
-        }}
-      >
-        🎃 Registrar Disfraz
+<button
+  onClick={registrar}
+  style={{
+    marginTop: "15px",
+    background:
+      "linear-gradient(135deg,#7b2cbf,#9d4edd)",
+    color: "white",
+    border: "none",
+    padding: "12px 20px",
+    borderRadius: "12px",
+    cursor: "pointer",
+    fontWeight: "bold",
+    boxShadow:
+      "0 0 15px rgba(123,44,191,0.5)",
+  }}
+>        🎃 Registrar Disfraz
       </button>
     </div>
   );
