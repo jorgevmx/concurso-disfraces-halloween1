@@ -65,25 +65,25 @@ const VOTACION_ABIERTA = true;
           margin: "0 auto",
         }}
       >
-        <h1
-          style={{
-            textAlign: "center",
-            color: "#ff8800",
-            fontSize: "50px",
-          }}
-        >
-          🎃 Concurso de Disfraces SKF 🎃
-        </h1>
-
-        <div
-          style={{
-            display: "flex",
-            gap: "10px",
-            marginBottom: "25px",
-            flexWrap: "wrap",
-          }}
-        >
-<button
+<h1
+  style={{
+    textAlign: "center",
+    color: "#ff8800",
+    fontSize: "38px",
+    lineHeight: "1.1",
+  }}
+>
+  🎃 Concurso de Disfraces SKF 🎃
+</h1>
+<div
+  style={{
+    display: "grid",
+    gridTemplateColumns:
+      "repeat(auto-fit,minmax(220px,1fr))",
+    gap: "15px",
+    marginBottom: "25px",
+  }}
+><button
   onClick={() => setPantalla("registro")}
   style={{
     background: "#ff8800",
@@ -322,20 +322,20 @@ function RegistroDisfraz({ recargar }) {
 >
   🎃 Registro de Disfraz
 </h2>
-      <input
-        type="text"
-        placeholder="Nombre"
-        value={nombre}
-        onChange={(e) =>
-          setNombre(e.target.value)
-        }
-        style={{
-          width: "100%",
-          padding: "10px",
-          marginBottom: "10px",
-        }}
-      />
-
+<input
+  type="text"
+  placeholder="Nombre"
+  value={nombre}
+  onChange={(e) =>
+    setNombre(e.target.value)
+  }
+  style={{
+    width: "100%",
+    padding: "10px",
+    marginBottom: "10px",
+    boxSizing: "border-box",
+  }}
+/>
       <input
         type="text"
         placeholder="Nombre del disfraz"
@@ -347,6 +347,7 @@ function RegistroDisfraz({ recargar }) {
           width: "100%",
           padding: "10px",
           marginBottom: "10px",
+          boxSizing: "border-box",
         }}
       />
 
