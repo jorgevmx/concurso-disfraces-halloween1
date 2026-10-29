@@ -83,18 +83,55 @@ const VOTACION_ABIERTA = true;
             flexWrap: "wrap",
           }}
         >
-          <button onClick={() => setPantalla("registro")}>
-            🎃 Registrar Disfraz
-          </button>
+<button
+  onClick={() => setPantalla("registro")}
+  style={{
+    background: "#ff8800",
+    color: "white",
+    border: "none",
+    padding: "15px 25px",
+    borderRadius: "12px",
+    cursor: "pointer",
+    fontWeight: "bold",
+    fontSize: "16px",
+    boxShadow: "0 0 10px rgba(255,136,0,0.4)",
+  }}
+>
+  🎃 Registrar Disfraz
+</button>
+<button
+  onClick={() => setPantalla("adultos")}
+  style={{
+    background: "#ff8800",
+    color: "white",
+    border: "none",
+    padding: "15px 25px",
+    borderRadius: "12px",
+    cursor: "pointer",
+    fontWeight: "bold",
+    fontSize: "16px",
+    boxShadow: "0 0 10px rgba(255,136,0,0.4)",
+  }}
+>
+  🎃 Votar Adultos
+</button>
 
-          <button onClick={() => setPantalla("adultos")}>
-            👨 Votar Adultos
-          </button>
-
-          <button onClick={() => setPantalla("ninos")}>
-            🧒 Votar Niños
-          </button>
-
+<button
+  onClick={() => setPantalla("ninos")}
+  style={{
+    background: "#ff8800",
+    color: "white",
+    border: "none",
+    padding: "15px 25px",
+    borderRadius: "12px",
+    cursor: "pointer",
+    fontWeight: "bold",
+    fontSize: "16px",
+    boxShadow: "0 0 10px rgba(255,136,0,0.4)",
+  }}
+>
+  👻 Votar Niños
+</button>
 {MOSTRAR_RESULTADOS && (
   <button onClick={() => setPantalla("resultados")}>
     🏆 Resultados
@@ -268,15 +305,15 @@ function RegistroDisfraz({ recargar }) {
   };
 
   return (
-    <div
-      style={{
-        background:
-          "rgba(0,0,0,0.5)",
-        padding: "20px",
-        borderRadius: "15px",
-      }}
-    >
-<h2
+<div
+  style={{
+    background: "rgba(255,136,0,0.15)",
+    padding: "20px",
+    borderRadius: "15px",
+    border: "2px solid #ff8800",
+    boxShadow: "0 0 20px rgba(255,136,0,0.3)",
+  }}
+><h2
   style={{
     textAlign: "center",
     color: "#ff8800",
@@ -429,21 +466,23 @@ function ListadoParticipantes({
   }}
 />
 
-          <h3
-            style={{
-              textAlign: "center",
-            }}
-          >
-            {p.nombre}
-          </h3>
+<h3
+  style={{
+    textAlign: "center",
+    color: "white",
+  }}
+>
+  🎭 {p.disfraz}
+</h3>
 
-          <p
-            style={{
-              textAlign: "center",
-            }}
-          >
-            🎭 {p.disfraz}
-          </p>
+<p
+  style={{
+    textAlign: "center",
+    fontWeight: "bold",
+  }}
+>
+  {p.nombre}
+</p>
 
 {mostrarVotos && (
   <p
@@ -600,31 +639,29 @@ function Resultados({
   adultos,
   ninos,
 }) {
-  const rankingAdultos = [...adultos]
-    .sort(
-      (a, b) =>
-        (b.votos || 0) - (a.votos || 0)
-    )
-    .slice(0, 3);
-
-  const rankingNinos = [...ninos]
-    .sort(
-      (a, b) =>
-        (b.votos || 0) - (a.votos || 0)
-    )
-    .slice(0, 3);
-
+const rankingAdultos = [...adultos]
+  .sort(
+    (a, b) =>
+      (b.votos || 0) - (a.votos || 0)
+  )
+  .slice(0, 10);
+const rankingNinos = [...ninos]
+  .sort(
+    (a, b) =>
+      (b.votos || 0) - (a.votos || 0)
+  )
+  .slice(0, 10);
   return (
     <div>
-      <div
-        style={{
-          background: "rgba(0,0,0,0.5)",
-          padding: "20px",
-          borderRadius: "15px",
-          marginBottom: "20px",
-        }}
-      >
-<h2
+<div
+  style={{
+    background: "rgba(255,136,0,0.15)",
+    padding: "20px",
+    borderRadius: "15px",
+    border: "2px solid #ff8800",
+    boxShadow: "0 0 20px rgba(255,136,0,0.3)",
+  }}
+><h2
   style={{
     textAlign: "center",
     color: "#ff8800",
@@ -648,13 +685,21 @@ function Resultados({
                   : "rgba(205,127,50,0.15)",
             }}
           >
-            <h1>
-              {index === 0
-                ? "🥇"
-                : index === 1
-                ? "🥈"
-                : "🥉"}
-            </h1>
+<h1
+  style={{
+    color: "#ff8800",
+    fontSize: "60px",
+    marginBottom: "30px",
+  }}
+>
+  {index === 0
+    ? "🥇"
+    : index === 1
+    ? "🥈"
+    : index === 2
+    ? "🥉"
+    : `#${index + 1}`}
+</h1>
 
             {p.foto && (
               <img
