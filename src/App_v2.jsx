@@ -125,7 +125,7 @@ const MOSTRAR_VOTACION = true;
       boxShadow: "0 0 10px rgba(255,136,0,0.4)",
     }}
   >
-    🎃 Votar Adultos
+    🧟 Votar Adultos
   </button>
 )}
 {MOSTRAR_VOTACION && (
@@ -185,7 +185,7 @@ const MOSTRAR_VOTACION = true;
 
         {pantalla === "adultos" && (
 <ListadoParticipantes
-  titulo="👨 Disfraces Adultos"
+  titulo="🧟 Disfraces Adultos"
   participantes={adultos}
   cargarParticipantes={cargarParticipantes}
   mostrarVotos={MOSTRAR_VOTOS}
@@ -194,7 +194,7 @@ const MOSTRAR_VOTACION = true;
 
         {pantalla === "ninos" && (
 <ListadoParticipantes
-  titulo="🧒 Disfraces Niños"
+  titulo="👻 Disfraces Niños"
   participantes={ninos}
   cargarParticipantes={cargarParticipantes}
   mostrarVotos={MOSTRAR_VOTOS}
@@ -333,11 +333,12 @@ function RegistroDisfraz({ recargar }) {
   return (
 <div
   style={{
-    background: "rgba(255,136,0,0.15)",
+    background: "rgba(40, 0, 60, 0.7)",
     padding: "20px",
-    borderRadius: "15px",
-    border: "2px solid #ff8800",
-    boxShadow: "0 0 20px rgba(255,136,0,0.3)",
+    borderRadius: "20px",
+    border: "3px solid #ff8800",
+    boxShadow: "0 0 25px rgba(255,136,0,0.5)",
+    backdropFilter: "blur(5px)",
   }}
 ><h2
   style={{
@@ -694,7 +695,7 @@ const rankingNinos = [...ninos]
     color: "#ff8800",
   }}
 >
-  👨 Top 3 Adultos
+  🧟 Top 3 Adultos
 </h2>
         {rankingAdultos.map((p, index) => (
           <div
@@ -767,7 +768,7 @@ const rankingNinos = [...ninos]
     color: "#ff8800",
   }}
 >
-  🧒 Top 3 Niños
+  👻 Top 3 Niños
 </h2>
         {rankingNinos.map((p, index) => (
           <div
