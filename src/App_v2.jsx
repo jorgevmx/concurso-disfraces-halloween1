@@ -17,6 +17,7 @@ export default function ConcursoDisfracesV2() {
   const MOSTRAR_RESULTADOS = true;
 const MOSTRAR_VOTOS = false;
 const VOTACION_ABIERTA = true;
+const MOSTRAR_VOTACION = true;
 
   useEffect(() => {
     cargarParticipantes();
@@ -53,7 +54,7 @@ const VOTACION_ABIERTA = true;
       style={{
         minHeight: "100vh",
         background:
-          "linear-gradient(to bottom, #000000, #2b0b45, #ff6600)",
+          "linear-gradient(to bottom, #240046, #5a189a, #9d4edd, #ff8500)",
         color: "white",
         padding: "20px",
         fontFamily: "Arial, sans-serif",
@@ -74,6 +75,16 @@ const VOTACION_ABIERTA = true;
   }}
 >
   🎃 Concurso de Disfraces SKF 🎃
+  <p
+  style={{
+    textAlign: "center",
+    color: "#ffd166",
+    fontSize: "18px",
+    marginBottom: "30px",
+  }}
+>
+  👻 Halloween SKF 2026 • Concurso Oficial 👻
+</p>
 </h1>
 <div
   style={{
@@ -99,44 +110,59 @@ const VOTACION_ABIERTA = true;
 >
   🎃 Registrar Disfraz
 </button>
-<button
-  onClick={() => setPantalla("adultos")}
-  style={{
-    background: "#ff8800",
-    color: "white",
-    border: "none",
-    padding: "15px 25px",
-    borderRadius: "12px",
-    cursor: "pointer",
-    fontWeight: "bold",
-    fontSize: "16px",
-    boxShadow: "0 0 10px rgba(255,136,0,0.4)",
-  }}
->
-  🎃 Votar Adultos
-</button>
-
-<button
-  onClick={() => setPantalla("ninos")}
-  style={{
-    background: "#ff8800",
-    color: "white",
-    border: "none",
-    padding: "15px 25px",
-    borderRadius: "12px",
-    cursor: "pointer",
-    fontWeight: "bold",
-    fontSize: "16px",
-    boxShadow: "0 0 10px rgba(255,136,0,0.4)",
-  }}
->
-  👻 Votar Niños
-</button>
-{MOSTRAR_RESULTADOS && (
-  <button onClick={() => setPantalla("resultados")}>
-    🏆 Resultados
+{MOSTRAR_VOTACION && (
+  <button
+    onClick={() => setPantalla("adultos")}
+    style={{
+      background: "#ff8800",
+      color: "white",
+      border: "none",
+      padding: "15px 25px",
+      borderRadius: "12px",
+      cursor: "pointer",
+      fontWeight: "bold",
+      fontSize: "16px",
+      boxShadow: "0 0 10px rgba(255,136,0,0.4)",
+    }}
+  >
+    🎃 Votar Adultos
   </button>
-)}        </div>
+)}
+{MOSTRAR_VOTACION && (
+  <button
+    onClick={() => setPantalla("ninos")}
+    style={{
+      background: "#ff8800",
+      color: "white",
+      border: "none",
+      padding: "15px 25px",
+      borderRadius: "12px",
+      cursor: "pointer",
+      fontWeight: "bold",
+      fontSize: "16px",
+      boxShadow: "0 0 10px rgba(255,136,0,0.4)",
+    }}
+  >
+    👻 Votar Niños
+  </button>
+)}{MOSTRAR_RESULTADOS && (
+<button
+  onClick={() => setPantalla("resultados")}
+  style={{
+    background: "linear-gradient(135deg,#FFD700,#FFA500)",
+    color: "#222",
+    border: "none",
+    padding: "15px 25px",
+    borderRadius: "12px",
+    cursor: "pointer",
+    fontWeight: "bold",
+    fontSize: "18px",
+    boxShadow: "0 0 15px rgba(255,215,0,0.5)",
+    minHeight: "65px",
+  }}
+>
+  🏆 Resultados
+</button>)}        </div>
 {!MOSTRAR_RESULTADOS && (
   <div
     style={{
