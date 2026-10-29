@@ -276,8 +276,15 @@ function RegistroDisfraz({ recargar }) {
         borderRadius: "15px",
       }}
     >
-      <h2>🎃 Registro de Disfraz</h2>
-
+<h2
+  style={{
+    textAlign: "center",
+    color: "#ff8800",
+    marginBottom: "20px",
+  }}
+>
+  🎃 Registro de Disfraz
+</h2>
       <input
         type="text"
         placeholder="Nombre"
@@ -375,7 +382,15 @@ function ListadoParticipantes({
 
   return (
     <div>
-      <h2>{titulo}</h2>
+<h2
+  style={{
+    textAlign: "center",
+    color: "#ff8800",
+    marginBottom: "20px",
+  }}
+>
+  {titulo}
+</h2>
 
       <input
         type="text"
@@ -609,8 +624,14 @@ function Resultados({
           marginBottom: "20px",
         }}
       >
-        <h2>👨 Top 3 Adultos</h2>
-
+<h2
+  style={{
+    textAlign: "center",
+    color: "#ff8800",
+  }}
+>
+  👨 Top 3 Adultos
+</h2>
         {rankingAdultos.map((p, index) => (
           <div
             key={p.id}
@@ -668,8 +689,14 @@ function Resultados({
           borderRadius: "15px",
         }}
       >
-        <h2>🧒 Top 3 Niños</h2>
-
+<h2
+  style={{
+    textAlign: "center",
+    color: "#ff8800",
+  }}
+>
+  🧒 Top 3 Niños
+</h2>
         {rankingNinos.map((p, index) => (
           <div
             key={p.id}
