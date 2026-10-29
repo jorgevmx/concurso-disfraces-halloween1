@@ -14,10 +14,10 @@ export default function ConcursoDisfracesV2() {
   const [pantalla, setPantalla] = useState("registro");
   const [participantes, setParticipantes] = useState([]);
 
-  const MOSTRAR_RESULTADOS = true;
+  const MOSTRAR_RESULTADOS = false;
 const MOSTRAR_VOTOS = false;
 const VOTACION_ABIERTA = true;
-const MOSTRAR_VOTACION = true;
+const MOSTRAR_VOTACION = false;
 
   useEffect(() => {
     cargarParticipantes();
